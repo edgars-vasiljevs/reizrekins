@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="lv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Reizrēķins — tāfeles spēle</title>
+  <meta name="description" content="Trenē reizrēķinu ar tāfeles spēli: 3 grūtības līmeņi, atbilžu varianti vai pašu ievadīta atbilde, statistika par kļūdām un domāšanas laiku.">
+  <meta name="theme-color" content="#24392d">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2324392d'/%3E%3Cpath d='M20 20l24 24M44 20L20 44' stroke='%23f7d774' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Reizrēķins">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="room">
+    <div class="frame">
+      <main class="board" id="board">
+
+        <!-- IZVĒLNE -->
+        <section class="screen active" id="screen-menu" aria-label="Izvēlne">
+          <button class="icon-btn sound-btn" id="btn-sound" aria-label="Skaņa ieslēgta" title="Skaņa">
+            <svg viewBox="0 0 24 24" class="ico-on"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+            <svg viewBox="0 0 24 24" class="ico-off"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>
+          </button>
+
+          <div class="menu">
+            <header class="menu-head" data-anim>
+              <h1 class="title grain"><span class="t1">Reiz</span><span class="t2">rēķins</span></h1>
+              <svg class="underline" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M4 12 C 60 4, 120 16, 180 9 S 270 6, 296 11"/></svg>
+              <p class="subtitle">Trenē galvu pie tāfeles</p>
+            </header>
+
+            <div class="block" data-anim>
+              <h2 class="label">Izvēlies līmeni</h2>
+              <div class="levels" role="radiogroup" aria-label="Līmenis">
+                <button class="level-card" data-level="1" role="radio" style="--c:var(--blue)">
+                  <span class="lvl-num">1</span>
+                  <span class="lvl-name">Iesācējs</span>
+                  <span class="lvl-desc">reizini ar 1, 2, 3</span>
+                  <span class="lvl-dots"><i class="on"></i><i></i><i></i></span>
+                </button>
+                <button class="level-card" data-level="2" role="radio" style="--c:var(--yellow)">
+                  <span class="lvl-num">2</span>
+                  <span class="lvl-name">Pratējs</span>
+                  <span class="lvl-desc">reizrēķins līdz 5</span>
+                  <span class="lvl-dots"><i class="on"></i><i class="on"></i><i></i></span>
+                </button>
+                <button class="level-card" data-level="3" role="radio" style="--c:var(--pink)">
+                  <span class="lvl-num">3</span>
+                  <span class="lvl-name">Meistars</span>
+                  <span class="lvl-desc">viss reizrēķins</span>
+                  <span class="lvl-dots"><i class="on"></i><i class="on"></i><i class="on"></i></span>
+                </button>
+              </div>
+            </div>
+
+            <div class="block" data-anim>
+              <h2 class="label">Spēles veids</h2>
+              <div class="modes" role="radiogroup" aria-label="Spēles veids">
+                <button class="mode-card" data-mode="choice" role="radio">
+                  <svg viewBox="0 0 48 48" class="mode-ico" aria-hidden="true"><rect x="5" y="7" width="16" height="14" rx="3"/><rect x="27" y="7" width="16" height="14" rx="3"/><rect x="5" y="27" width="16" height="14" rx="3"/><rect x="27" y="27" width="16" height="14" rx="3" class="fill"/></svg>
+                  <span class="mode-text">
+                    <span class="mode-name">Izvēlies atbildi</span>
+                    <span class="mode-desc">atrodi pareizo no četrām</span>
+                  </span>
+                </button>
+                <button class="mode-card" data-mode="input" role="radio">
+                  <svg viewBox="0 0 48 48" class="mode-ico" aria-hidden="true"><rect x="4" y="11" width="40" height="26" rx="4"/><path d="M11 18h2M17 18h2M23 18h2M29 18h2M35 18h2M11 24h2M17 24h2M23 24h2M29 24h2M35 24h2M15 30h18"/></svg>
+                  <span class="mode-text">
+                    <span class="mode-name">Ieraksti atbildi</span>
+                    <span class="mode-desc">atceries un uzraksti pats</span>
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            <div class="menu-actions" data-anim>
+              <button class="btn btn-primary btn-big" id="btn-start">Sākt!</button>
+              <p class="best-line" id="best-line"></p>
+              <button class="btn btn-ghost" id="btn-stats">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+                Statistika
+              </button>
+              <button class="btn btn-ghost btn-small install-btn" id="btn-install" hidden>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M12 7v7M9 11l3 3 3-3M10.5 18.5h3"/></svg>
+                Instalēt kā lietotni
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- SPĒLE -->
+        <section class="screen" id="screen-game" aria-label="Spēle">
+          <div class="hud" data-anim>
+            <button class="icon-btn" id="btn-quit" aria-label="Pārtraukt spēli" title="Pārtraukt (Esc)">
+              <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
+            <div class="progress">
+              <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+              <span class="progress-text" id="progress-text">1 / 10</span>
+            </div>
+            <div class="hud-chip" title="Domāšanas laiks">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg>
+              <span id="hud-timer">0:00</span>
+            </div>
+            <div class="hud-chip streak" id="hud-streak" title="Pareizi pēc kārtas">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L5 14h6l-1 8 8-12h-6z"/></svg>
+              <span id="streak-num">0</span>
+            </div>
+          </div>
+
+          <div class="question-area">
+            <div class="question grain" id="question" aria-live="polite">
+              <span class="qa" id="qa">7</span>
+              <span class="op">×</span>
+              <span class="qb" id="qb">8</span>
+              <span class="op">=</span>
+              <span class="slot" id="slot">?</span>
+              <input class="field" id="field" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" autocomplete="off" enterkeyhint="done" aria-label="Tava atbilde" placeholder="?">
+            </div>
+            <div class="feedback" id="feedback" aria-live="assertive"></div>
+          </div>
+
+          <div class="answers answers-choice" id="answers-choice"></div>
+
+          <div class="answers answers-input" id="answers-input">
+            <div class="steps">
+              <button class="step minus" data-step="-10" aria-label="Mīnus 10">−10</button>
+              <button class="step minus" data-step="-1" aria-label="Mīnus 1">−1</button>
+              <button class="step plus" data-step="1" aria-label="Plus 1">+1</button>
+              <button class="step plus" data-step="10" aria-label="Plus 10">+10</button>
+            </div>
+            <button class="btn btn-primary btn-wide" id="btn-check" disabled>Pārbaudīt</button>
+          </div>
+        </section>
+
+        <!-- REZULTĀTS -->
+        <section class="screen" id="screen-result" aria-label="Rezultāts">
+          <div class="result">
+            <p class="result-meta" id="r-meta" data-anim></p>
+            <h2 class="result-title grain" id="r-title" data-anim>Izcili!</h2>
+            <div class="stars" id="stars" data-anim>
+              <svg viewBox="0 0 24 24" class="star"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>
+              <svg viewBox="0 0 24 24" class="star big"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>
+              <svg viewBox="0 0 24 24" class="star"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>
+            </div>
+            <div class="record-badge" id="r-record" hidden>Jauns rekords!</div>
+
+            <div class="result-grid" data-anim>
+              <div class="stat"><span class="stat-val" id="r-correct">0</span><span class="stat-lbl">pareizi</span></div>
+              <div class="stat"><span class="stat-val" id="r-mistakes">0</span><span class="stat-lbl">kļūdas</span></div>
+              <div class="stat"><span class="stat-val" id="r-time">0:00</span><span class="stat-lbl">kopējais laiks</span></div>
+              <div class="stat"><span class="stat-val" id="r-avg">0 s</span><span class="stat-lbl">vidēji uz piemēru</span></div>
+            </div>
+
+            <div class="review" id="r-review" data-anim></div>
+
+            <div class="result-actions" data-anim>
+              <button class="btn btn-primary" id="btn-again">Vēlreiz</button>
+              <button class="btn btn-ghost" id="btn-menu">Uz izvēlni</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- STATISTIKA -->
+        <section class="screen" id="screen-stats" aria-label="Statistika">
+          <div class="stats">
+            <div class="stats-head" data-anim>
+              <button class="icon-btn" id="btn-back" aria-label="Atpakaļ">
+                <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+              </button>
+              <h2 class="stats-title">Statistika</h2>
+            </div>
+
+            <div class="tabs" role="tablist" aria-label="Statistikas sadaļas" data-anim>
+              <button class="tab" role="tab" data-tab="progress" aria-selected="true">Progress</button>
+              <button class="tab" role="tab" data-tab="details" aria-selected="false">Detaļas</button>
+            </div>
+
+            <div class="tab-panel" id="tab-progress" role="tabpanel" data-anim>
+              <div class="chips" id="p-level" role="radiogroup" aria-label="Līmenis">
+                <button class="chip" data-level="0" role="radio">Visi</button>
+                <button class="chip" data-level="1" role="radio" style="--c:var(--blue)"><i></i>Iesācējs</button>
+                <button class="chip" data-level="2" role="radio" style="--c:var(--yellow)"><i></i>Pratējs</button>
+                <button class="chip" data-level="3" role="radio" style="--c:var(--pink)"><i></i>Meistars</button>
+              </div>
+
+              <div class="summary" id="p-tiles"></div>
+
+              <div class="panel">
+                <div class="panel-row">
+                  <h3 class="panel-title">Kalendārs</h3>
+                  <div class="cal-nav">
+                    <button class="icon-btn small" id="cal-prev" aria-label="Iepriekšējais mēnesis"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+                    <span class="cal-month" id="cal-month"></span>
+                    <button class="icon-btn small" id="cal-next" aria-label="Nākamais mēnesis"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+                  </div>
+                </div>
+                <div class="cal-week" aria-hidden="true"><span>P</span><span>O</span><span>T</span><span>C</span><span>Pk</span><span>S</span><span>Sv</span></div>
+                <div class="calendar" id="p-cal"></div>
+                <p class="heat-info" id="p-day-info"></p>
+                <div class="legend">
+                  <span>mazāk</span>
+                  <span class="cal-scale"><i class="cl1"></i><i class="cl2"></i><i class="cl3"></i><i class="cl4"></i></span>
+                  <span>vairāk piemēru</span>
+                  <span><b class="cal-star">★</b>spēle bez kļūdām</span>
+                </div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-row">
+                  <h3 class="panel-title">Līknes</h3>
+                  <div class="chips small" id="p-range" role="radiogroup" aria-label="Periods">
+                    <button class="chip" data-range="7" role="radio">7 d.</button>
+                    <button class="chip" data-range="30" role="radio">30 d.</button>
+                    <button class="chip" data-range="90" role="radio">90 d.</button>
+                    <button class="chip" data-range="0" role="radio">Viss</button>
+                  </div>
+                </div>
+
+                <div class="chart-block">
+                  <div class="chart-head">
+                    <div>
+                      <h4 class="chart-title">Pareizās atbildes</h4>
+                      <p class="chart-sub" id="c-acc-delta"></p>
+                    </div>
+                    <span class="chart-val" id="c-acc-val"></span>
+                  </div>
+                  <div class="chart" id="c-acc" style="--line:var(--green)"></div>
+                </div>
+
+                <div class="chart-block">
+                  <div class="chart-head">
+                    <div>
+                      <h4 class="chart-title">Vidējais domāšanas laiks</h4>
+                      <p class="chart-sub" id="c-time-delta"></p>
+                    </div>
+                    <span class="chart-val" id="c-time-val"></span>
+                  </div>
+                  <div class="chart" id="c-time" style="--line:var(--blue)"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-panel" id="tab-details" role="tabpanel" data-anim hidden>
+              <div class="summary" id="s-summary"></div>
+
+              <div class="panel">
+                <h3 class="panel-title">Rekordi</h3>
+                <div class="records" id="s-records"></div>
+              </div>
+
+              <div class="panel">
+                <h3 class="panel-title">Piemēru karte</h3>
+                <p class="panel-hint">Pieskaries rūtiņai, lai redzētu sīkāk.</p>
+                <div class="heatmap" id="s-heatmap"></div>
+                <p class="heat-info" id="s-heat-info">&nbsp;</p>
+                <div class="legend">
+                  <span><i class="h-none"></i>nav mēģināts</span>
+                  <span><i class="h-good"></i>labi</span>
+                  <span><i class="h-slow"></i>lēni / dažreiz kļūdās</span>
+                  <span><i class="h-bad"></i>bieži kļūdās</span>
+                </div>
+              </div>
+
+              <div class="panel">
+                <h3 class="panel-title">Pēdējās spēles</h3>
+                <div class="recent" id="s-recent"></div>
+              </div>
+            </div>
+
+            <div class="stats-foot" data-anim>
+              <button class="btn btn-ghost btn-small danger" id="btn-reset">Dzēst statistiku</button>
+            </div>
+          </div>
+        </section>
+
+        <div class="wipe" id="wipe" aria-hidden="true"></div>
+      </main>
+      <div class="ledge" aria-hidden="true">
+        <i class="chalk c1"></i><i class="chalk c2"></i><i class="chalk c3"></i><i class="chalk c4"></i>
+        <i class="eraser"></i>
+      </div>
+    </div>
+  </div>
+
+  <dialog class="dialog" id="dialog">
+    <form method="dialog">
+      <p class="dialog-text" id="dialog-text"></p>
+      <div class="dialog-body" id="dialog-body" hidden></div>
+      <div class="dialog-actions">
+        <button class="btn btn-ghost btn-small" value="no" id="dialog-no">Nē</button>
+        <button class="btn btn-primary btn-small" value="yes" id="dialog-yes">Jā</button>
+      </div>
+    </form>
+  </dialog>
+
+  <canvas class="fx" id="fx" aria-hidden="true"></canvas>
+  <script src="app.js"></script>
+</body>
+</html>
