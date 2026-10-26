@@ -125,7 +125,7 @@
               <span class="qb" id="qb">8</span>
               <span class="op">=</span>
               <span class="slot" id="slot">?</span>
-              <input class="field" id="field" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" autocomplete="off" enterkeyhint="done" aria-label="Tava atbilde" placeholder="?">
+              <input class="field" id="field" type="text" inputmode="none" maxlength="3" autocomplete="off" tabindex="-1" readonly aria-label="Tava atbilde" placeholder="?">
             </div>
             <div class="feedback" id="feedback" aria-live="assertive"></div>
           </div>
@@ -133,13 +133,24 @@
           <div class="answers answers-choice" id="answers-choice"></div>
 
           <div class="answers answers-input" id="answers-input">
-            <div class="steps">
-              <button class="step minus" data-step="-10" aria-label="Mīnus 10">−10</button>
-              <button class="step minus" data-step="-1" aria-label="Mīnus 1">−1</button>
-              <button class="step plus" data-step="1" aria-label="Plus 1">+1</button>
-              <button class="step plus" data-step="10" aria-label="Plus 10">+10</button>
+            <div class="keypad" role="group" aria-label="Ciparnīca">
+              <button class="key" data-key="1">1</button>
+              <button class="key" data-key="2">2</button>
+              <button class="key" data-key="3">3</button>
+              <button class="key" data-key="4">4</button>
+              <button class="key" data-key="5">5</button>
+              <button class="key" data-key="6">6</button>
+              <button class="key" data-key="7">7</button>
+              <button class="key" data-key="8">8</button>
+              <button class="key" data-key="9">9</button>
+              <button class="key key-del" data-key="del" aria-label="Dzēst">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h11v14H9l-6-7z"/><path d="M12.5 9.5l5 5m0-5l-5 5"/></svg>
+              </button>
+              <button class="key" data-key="0">0</button>
+              <button class="key key-ok" id="btn-check" data-key="ok" aria-label="Pārbaudīt" disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>
+              </button>
             </div>
-            <button class="btn btn-primary btn-wide" id="btn-check" disabled>Pārbaudīt</button>
           </div>
         </section>
 

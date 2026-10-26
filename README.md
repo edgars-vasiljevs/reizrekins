@@ -8,7 +8,7 @@ Vienkārša tāfeles stila spēle reizrēķina trenēšanai. Tīrs HTML/CSS/JS, 
 - **2 veidi**: atrodi pareizo atbildi no četrām vai atceries un uzraksti to pats
 - Piemēri, kuros iepriekš kļūdījies, parādās biežāk.
 
-Īsinājumtaustiņi: `1`–`4` vai `A`–`D` atbildes izvēlei, `Enter` pārbaudīt / tālāk, `↑` `↓` ±1 (ar `Shift` ±10), `Esc` iziet.
+Īsinājumtaustiņi: `1`–`4` vai `A`–`D` atbildes izvēlei, `Enter` pārbaudīt / tālāk, `0`–`9` cipari, `Backspace` dzēst, `Esc` iziet.
 
 ## Statistika
 

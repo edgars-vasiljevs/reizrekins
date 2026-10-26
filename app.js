@@ -16,7 +16,6 @@
   const DELAY_BAD = 2600;
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const finePointer = window.matchMedia('(pointer: fine)').matches;
 
   /* ============ Palīgi ============ */
 
@@ -375,6 +374,7 @@
     feedback: $('#feedback'),
     choices: $('#answers-choice'),
     check: $('#btn-check'),
+    keypad: $('.keypad'),
     fill: $('#progress-fill'),
     progress: $('#progress-text'),
     timer: $('#hud-timer'),
@@ -467,9 +467,7 @@
     } else {
       els.field.value = '';
       els.field.className = 'field';
-      els.field.readOnly = false;
       updateCheck();
-      if (finePointer) els.field.focus({ preventScroll: true });
     }
 
     game.locked = false;
@@ -497,7 +495,6 @@
         else b.classList.add('dim');
       });
     } else {
-      els.field.readOnly = true;
       els.check.disabled = true;
     }
 
@@ -576,7 +573,7 @@
     } else {
       game.qStart += performance.now() - pausedAt;
       game.locked = false;
-      if (game.mode === 'input' && finePointer) els.field.focus({ preventScroll: true });
+      updateCheck();
     }
   }
 
@@ -604,11 +601,26 @@
     updateCheck();
   }
 
-  function doStep(step) {
+  function typeKey(k) {
     if (game.locked) return;
-    const cur = parseInt(els.field.value || '0', 10);
-    setField(String(Math.max(0, Math.min(999, cur + step))));
+    const v = els.field.value;
+    if (k === 'del') {
+      if (v === '') return;
+      setField(v.slice(0, -1));
+    } else {
+      if (v.length >= 3) return;
+      setField(v === '0' ? k : v + k); // bez vadošās nulles
+    }
     Sound.play('tap');
+  }
+
+  function flashKey(k) {
+    const btn = els.keypad.querySelector(`[data-key="${k}"]`);
+    if (!btn) return;
+    btn.classList.remove('press');
+    void btn.offsetWidth;
+    btn.classList.add('press');
+    btn.addEventListener('animationend', () => btn.classList.remove('press'), { once: true });
   }
 
   function submitInput() {
@@ -622,28 +634,16 @@
     answer(parseInt(els.field.value, 10));
   }
 
-  els.field.addEventListener('input', () => {
-    const clean = els.field.value.replace(/\D/g, '').slice(0, 3);
-    if (clean !== els.field.value) els.field.value = clean;
-    updateCheck();
+  els.keypad.addEventListener('pointerdown', (e) => {
+    if (e.target.closest('.key')) e.preventDefault(); // poga nepaņem fokusu un nerāda fokusa rāmi
   });
-  els.check.addEventListener('click', submitInput);
-
-  $$('.step').forEach((btn) => {
-    const step = +btn.dataset.step;
-    let delayId = 0;
-    let repeatId = 0;
-    const stop = () => { clearTimeout(delayId); clearInterval(repeatId); };
-    btn.addEventListener('pointerdown', (e) => {
-      if (e.button !== 0) return;
-      e.preventDefault(); // neņem fokusu no ievades lauka
-      doStep(step);
-      delayId = setTimeout(() => { repeatId = setInterval(() => doStep(step), 110); }, 450);
-    });
-    ['pointerup', 'pointerleave', 'pointercancel'].forEach((ev) => btn.addEventListener(ev, stop));
-    btn.addEventListener('click', (e) => { if (e.detail === 0) doStep(step); }); // klaviatūra
-    btn.addEventListener('contextmenu', (e) => e.preventDefault());
+  els.keypad.addEventListener('click', (e) => {
+    const btn = e.target.closest('.key');
+    if (!btn) return;
+    if (btn === els.check) submitInput();
+    else typeKey(btn.dataset.key);
   });
+  els.keypad.addEventListener('contextmenu', (e) => e.preventDefault());
 
   /* ============ Rezultāts ============ */
 
@@ -1151,18 +1151,15 @@
     }
 
     // Ievades režīms
-    if (key === 'Enter') { e.preventDefault(); submitInput(); return; }
-    if (key === 'ArrowUp') { e.preventDefault(); doStep(e.shiftKey ? 10 : 1); return; }
-    if (key === 'ArrowDown') { e.preventDefault(); doStep(e.shiftKey ? -10 : -1); return; }
-    if (key === 'PageUp') { e.preventDefault(); doStep(10); return; }
-    if (key === 'PageDown') { e.preventDefault(); doStep(-10); return; }
-    if (e.target === els.field) return; // laukā rakstīšanu apstrādā pārlūks
+    if (key === 'Enter') { e.preventDefault(); if (!els.check.disabled) flashKey('ok'); submitInput(); return; }
     if (/^\d$/.test(key)) {
       e.preventDefault();
-      if (els.field.value.length < 3) setField(els.field.value + key);
-    } else if (key === 'Backspace') {
+      flashKey(key);
+      typeKey(key);
+    } else if (key === 'Backspace' || key === 'Delete') {
       e.preventDefault();
-      setField(els.field.value.slice(0, -1));
+      flashKey('del');
+      typeKey('del');
     }
   });
 

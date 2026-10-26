@@ -566,20 +566,19 @@ svg { display: block; }
   padding: 0;
   margin: 0;
   border: 0;
-  border-bottom: .06em dashed var(--chalk-mute);
+  border-bottom: .06em dashed var(--yellow);
   border-radius: 0;
   background: transparent;
   font: inherit;
   color: var(--yellow);
-  caret-color: var(--yellow);
+  caret-color: transparent;
   text-shadow: inherit;
+  pointer-events: none;
   outline: none;
   -webkit-appearance: none;
   appearance: none;
 }
 .field::placeholder { color: var(--chalk-faint); }
-.field:focus { border-bottom-color: var(--yellow); }
-.field:focus-visible { outline: none; }
 .field.bad { color: var(--red); text-decoration: line-through; text-decoration-thickness: .06em; border-bottom-color: transparent; }
 .field.nudge { animation: nudge .22s var(--ease-out); }
 @keyframes nudge { 50% { transform: translateY(-6px) scale(1.06); } }
@@ -674,26 +673,51 @@ svg { display: block; }
 
 .answers-input {
   flex-direction: column;
-  gap: 14px;
-  max-width: 520px;
+  max-width: 400px;
   animation: cardIn .45s var(--ease-spring) .2s both;
 }
-.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(8px, 2vw, 14px); }
-.step {
-  height: clamp(58px, 10vh, 76px);
+.keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(7px, 1.6vw, 12px); }
+.key {
+  display: grid;
+  place-items: center;
+  height: clamp(48px, 8.4cqh, 68px);
   border: 2.5px solid var(--chalk-faint);
   border-radius: var(--r-hand);
   background: rgba(0, 0, 0, .14);
   font-family: var(--font-num);
   font-weight: 600;
-  font-size: clamp(22px, 4.5vw, 28px);
-  transition: border-color .2s, background-color .2s, transform .12s;
+  font-size: clamp(26px, 5vw, 34px);
+  color: var(--chalk);
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  transition: border-color .2s, background-color .2s, opacity .2s, transform .12s;
 }
-.step:nth-child(2n) { border-radius: var(--r-hand-2); }
-.step.minus { color: var(--pink); }
-.step.plus { color: var(--blue); }
-@media (hover: hover) { .step:hover { border-color: currentColor; background: var(--chalk-ghost); } }
-.step:active { transform: scale(.94); }
+.key:nth-child(2n) { border-radius: var(--r-hand-2); }
+.key svg { width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.key-del { color: var(--pink); }
+.key-ok { color: var(--board-3); background: var(--yellow); border-color: var(--yellow); box-shadow: 0 4px 0 var(--yellow-deep); }
+.key-ok svg { stroke-width: 3; }
+.key-ok:disabled { opacity: .4; cursor: default; }
+@media (hover: hover) {
+  .key:not(.key-ok):hover { border-color: var(--chalk-dim); background: var(--chalk-ghost); }
+  .key-ok:not(:disabled):hover { background: #fbe08a; border-color: #fbe08a; }
+}
+.key:active { transform: scale(.93); border-color: var(--chalk-dim); background: var(--chalk-ghost); }
+.key-ok:not(:disabled):active { transform: translateY(3px); box-shadow: 0 1px 0 var(--yellow-deep); background: var(--yellow); border-color: var(--yellow); }
+.key.press { animation: keyPress .18s var(--ease-out); }
+.key-ok.press { animation: keyPressOk .18s var(--ease-out); }
+@keyframes keyPress { 40% { transform: scale(.93); border-color: var(--chalk-dim); background-color: var(--chalk-ghost); } }
+@keyframes keyPressOk { 40% { transform: translateY(3px); box-shadow: 0 1px 0 var(--yellow-deep); } }
+.key-ok:disabled:active { transform: none; }
+/* zemā tāfelē ciparnīca 2 rindās: 1–6 / 7 8 9 0 ⌫ ✓ */
+@container (max-height: 540px) and (min-width: 560px) {
+  .answers-input { max-width: 600px; }
+  .keypad { grid-template-columns: repeat(6, 1fr); }
+  .key { height: clamp(46px, 11cqh, 60px); }
+  .key-del { order: 1; }
+  .key-ok { order: 2; }
+}
 
 /* ============ Rezultāts ============ */
 
