@@ -448,6 +448,28 @@ svg { display: block; }
   .level-card .lvl-desc { align-self: start; text-align: left; }
   .level-card .lvl-dots { display: none; }
 }
+/* Šaura tāfele (telefons ar pārlūka joslām): izvēlnei jāietilpst bez ritināšanas */
+@container (max-width: 559px) and (max-height: 820px) {
+  .menu { gap: clamp(8px, 1.8cqh, 16px); }
+  .menu .lvl-dots { display: none; }
+  .menu .level-card { padding: 10px 6px 9px; gap: 2px; }
+  .menu .lvl-num { width: 38px; height: 38px; font-size: 26px; }
+  .menu .label { margin-bottom: 6px; }
+  .menu .modes { gap: 8px; }
+  .menu .mode-card { padding: 8px 14px; }
+  .menu .mode-ico { width: 34px; height: 34px; }
+  .menu .menu-actions { gap: 8px; }
+  .menu .menu-actions .btn-big { margin-top: 0; }
+  .menu .best-line { margin: 0; font-size: 16px; }
+}
+@container (max-width: 559px) and (max-height: 600px) {
+  .menu .underline { display: none; }
+  .menu .mode-desc { display: none; }
+  .menu .level-card { padding: 8px 6px 7px; }
+  .menu .lvl-num { width: 32px; height: 32px; font-size: 22px; margin-bottom: 2px; }
+  .menu .label { font-size: 16px; margin-bottom: 4px; }
+  .menu .btn-big { font-size: 30px; padding: 9px 48px; }
+}
 @container (max-height: 660px) {
   .menu { gap: clamp(8px, 2cqh, 14px); }
   .subtitle, .lvl-dots { display: none; }
