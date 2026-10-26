@@ -460,6 +460,7 @@
 
     if (game.mode === 'choice') {
       els.choices.classList.remove('locked');
+      els.choices.classList.add('fresh'); // jaunā poga zem kursora/pirksta nedrīkst izskatīties jau izvēlēta
       els.choices.innerHTML = buildOptions(q.a, q.b)
         .map((v, i) => `<button class="choice" data-v="${v}" style="--i:${i}" aria-label="${'ABCD'[i]}: ${v}"><span class="letter">${'ABCD'[i]}</span><span class="val">${v}</span></button>`)
         .join('');
@@ -582,6 +583,10 @@
   els.choices.addEventListener('click', (e) => {
     const btn = e.target.closest('.choice');
     if (btn) answer(+btn.dataset.v, btn);
+  });
+  els.choices.addEventListener('pointermove', (e) => {
+    // pārlūks pēc DOM maiņas var sūtīt sintētisku kustību bez nobīdes — to ignorējam
+    if (e.pointerType === 'mouse' && (e.movementX || e.movementY)) els.choices.classList.remove('fresh');
   });
   $('#btn-quit').addEventListener('click', askQuit);
 
