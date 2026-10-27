@@ -7,8 +7,9 @@ Vienkārša tāfeles stila spēle reizrēķina trenēšanai. Tīrs HTML/CSS/JS, 
 - **3 līmeņi**: Iesācējs (reizini ar 1–3), Pratējs (līdz 5), Meistars (viss reizrēķins līdz 10)
 - **2 veidi**: atrodi pareizo atbildi no četrām vai atceries un uzraksti to pats
 - Piemēri, kuros iepriekš kļūdījies, parādās biežāk.
+- **Mācīties**: izvēlies skaitli 1–10 un apskati tā reizrēķina tabulu pirms spēles.
 
-Īsinājumtaustiņi: `1`–`4` vai `A`–`D` atbildes izvēlei, `Enter` pārbaudīt / tālāk, `0`–`9` cipari, `Backspace` dzēst, `Esc` iziet.
+Īsinājumtaustiņi: `1`–`4` vai `A`–`D` atbildes izvēlei, `Enter` pārbaudīt / tālāk, `0`–`9` cipari, `Backspace` dzēst, `Esc` iziet. Mācību skatā: `1`–`9`, `0` (=10) vai `←`/`→` skaitļa izvēlei.
 
 ## Statistika
 

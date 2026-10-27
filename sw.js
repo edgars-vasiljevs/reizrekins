@@ -1,5 +1,5 @@
 /* Service worker: spēle strādā arī bez interneta. Mainot failus, palielini VERSION. */
-const VERSION = 'v4';
+const VERSION = 'v5';
 const CACHE = `reizrekins-${VERSION}`;
 const ASSETS = [
   './',

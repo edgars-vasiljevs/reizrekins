@@ -429,6 +429,7 @@ svg { display: block; }
   text-align: center;
 }
 .best-line b { color: var(--yellow); font-weight: 400; }
+.btn-icon { padding-left: 14px; padding-right: 14px; }
 .install-btn[hidden] { display: none; }
 
 /* Zema tāfele (laptopi, horizontāli planšeti): kompaktas līmeņu kartītes, lai izvēlne ietilpst bez ritināšanas */
@@ -477,8 +478,11 @@ svg { display: block; }
 @container (max-height: 540px) {
   .underline { display: none; }
 }
+/* Šaura tāfele: Mācīties, Statistika un instalēšanas ikona vienā rindā */
 @container (max-width: 480px) {
-  .install-btn .long { display: none; }
+  .menu-links { gap: 8px; }
+  .menu-links .btn { gap: 6px; padding: 9px 12px; font-size: 19px; }
+  .menu-links .btn svg { width: 18px; height: 18px; }
 }
 
 /* ============ Spēle ============ */
@@ -834,6 +838,93 @@ svg { display: block; }
 .review .slowest b { font-family: var(--font-num); font-weight: 500; color: var(--chalk); }
 
 .result-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 6px; }
+
+/* ============ Mācības ============ */
+
+.learn {
+  flex: 1;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 3cqh, 28px);
+}
+.learn-pick .label { text-align: left; }
+/* Brīvais laukums zem izvēlnes; tabulas izmērs tiek rēķināts no tā (cqh/cqw), lai tā vienmēr aizpilda vietu un ietilpst */
+.learn-sheet {
+  flex: 1;
+  min-height: 0;
+  container-type: size;
+  display: grid;
+  place-items: center;
+}
+
+.num-picker {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: clamp(6px, 1.2vw, 10px);
+}
+.num-btn {
+  width: 100%;
+  max-width: 64px;
+  justify-self: center;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 2.5px solid color-mix(in srgb, var(--c) 45%, transparent);
+  border-radius: 50% 44% 52% 46%;
+  background: rgba(0, 0, 0, .12);
+  font-family: var(--font-title);
+  font-size: clamp(24px, 4vw, 32px);
+  line-height: 1;
+  color: var(--c);
+  transition: transform .25s var(--ease-spring), border-color .2s, background-color .2s, color .2s, box-shadow .2s;
+}
+.num-btn:nth-child(2n) { border-radius: 46% 52% 44% 50%; }
+@media (hover: hover) { .num-btn:hover { border-color: var(--c); transform: translateY(-3px) rotate(-4deg); } }
+.num-btn:active { transform: scale(.94); }
+.num-btn[aria-checked="true"] {
+  border-color: var(--c);
+  background: var(--c);
+  color: var(--board-3);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, .3);
+  transform: translateY(-3px) rotate(-4deg);
+}
+
+/* Tabula: kartīte tik plata kā saturs; kolonnas izlīdzinātas (a × b = c), lai zīmes stāv vienā līnijā */
+.times {
+  --c: var(--yellow);
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  column-gap: .3em;
+  align-items: baseline;
+  padding: .45em 1em;
+  border: 2.5px solid color-mix(in srgb, var(--c) 60%, transparent);
+  border-radius: var(--r-hand-2);
+  background: color-mix(in srgb, var(--c) 6%, rgba(0, 0, 0, .14));
+  box-shadow: 0 14px 30px rgba(0, 0, 0, .22);
+  font-family: var(--font-num);
+  font-weight: 600;
+  /* 10 rindas × 1,25em + atkāpes ≈ 13,4em augstumā; garākā rinda + atkāpes ≈ 9em platumā */
+  font-size: clamp(16px, min(7cqh, 10.5cqw), 52px);
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 2px rgba(255, 255, 255, .3);
+  transition: border-color .3s, background-color .3s;
+}
+.times-row { display: contents; }
+.times-row .ta { text-align: right; color: color-mix(in srgb, var(--c) 75%, var(--chalk)); }
+.times-row .tb { text-align: center; }
+.times-row .tc { text-align: left; color: var(--c); }
+.times-row .op { text-align: center; color: var(--chalk-mute); font-weight: 500; }
+.times.swap .times-row > * { animation: chalkIn .45s var(--ease-out) both; animation-delay: calc(var(--i) * 30ms); }
+
+@container (max-width: 559px) {
+  .num-picker { grid-template-columns: repeat(5, 1fr); }
+  .num-btn { max-width: 56px; }
+}
 
 /* ============ Statistika ============ */
 

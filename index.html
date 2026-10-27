@@ -85,13 +85,16 @@
               <button class="btn btn-primary btn-big" id="btn-start">Sākt!</button>
               <p class="best-line" id="best-line"></p>
               <div class="menu-links">
+                <button class="btn btn-ghost btn-small" id="btn-learn">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10 5 7 4.5 3 5v13c4-.5 7 0 9 1.5 2-1.5 5-2 9-1.5V5c-4-.5-7 0-9 1.5zM12 6.5v13"/></svg>
+                  Mācīties
+                </button>
                 <button class="btn btn-ghost btn-small" id="btn-stats">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
                   Statistika
                 </button>
-                <button class="btn btn-ghost btn-small install-btn" id="btn-install" hidden>
+                <button class="btn btn-ghost btn-small btn-icon install-btn" id="btn-install" aria-label="Instalēt kā lietotni" title="Instalēt kā lietotni" hidden>
                   <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M12 7v7M9 11l3 3 3-3M10.5 18.5h3"/></svg>
-                  Instalēt<span class="long">&nbsp;kā lietotni</span>
                 </button>
               </div>
             </div>
@@ -178,6 +181,27 @@
             <div class="result-actions" data-anim>
               <button class="btn btn-primary" id="btn-again">Vēlreiz</button>
               <button class="btn btn-ghost" id="btn-menu">Uz izvēlni</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- MĀCĪBAS -->
+        <section class="screen" id="screen-learn" aria-label="Mācīties">
+          <div class="learn">
+            <div class="stats-head" data-anim>
+              <button class="icon-btn" id="btn-learn-back" aria-label="Atpakaļ">
+                <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+              </button>
+              <h2 class="stats-title">Mācies</h2>
+            </div>
+
+            <div class="learn-pick" data-anim>
+              <h3 class="label">Izvēlies skaitli</h3>
+              <div class="num-picker" id="num-picker" role="radiogroup" aria-label="Skaitlis"></div>
+            </div>
+
+            <div class="learn-sheet" data-anim>
+              <div class="times" id="times" aria-live="polite"></div>
             </div>
           </div>
         </section>

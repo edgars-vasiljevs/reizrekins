@@ -9,6 +9,8 @@
     3: { name: 'Meistars', tables: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], count: 15, color: 'var(--pink)' },
   };
   const MODES = { choice: 'Izvēlies atbildi', input: 'Ieraksti atbildi' };
+  // Katrai reizrēķina tabulai sava krīta krāsa (1–10)
+  const TABLE_COLORS = ['#ff9d8f', '#96cff5', '#a8e6a1', '#f5a6c6', '#c9b0f2', '#ffbe7a', '#e2b48c', '#f7d774', '#8fe0dc', '#cfe88c'];
   const PRAISE = ['Pareizi!', 'Malacis!', 'Lieliski!', 'Tieši tā!', 'Super!', 'Precīzi!', 'Forši!'];
   const STORE_KEY = 'reizrekins.v1';
   const MAX_GAMES = 300;
@@ -55,7 +57,7 @@
     games: [],
     facts: {},
     best: {},
-    prefs: { level: 1, mode: 'choice', sound: true },
+    prefs: { level: 1, mode: 'choice', sound: true, learn: 2 },
   });
 
   const store = (() => {
@@ -306,6 +308,44 @@
   });
   $('#btn-start').addEventListener('click', () => startGame());
   $('#btn-stats').addEventListener('click', () => { renderStats(); show('stats', renderCharts); Sound.play('tap'); });
+  $('#btn-learn').addEventListener('click', () => { renderLearn(); show('learn'); Sound.play('tap'); });
+
+  /* ============ Mācības ============ */
+
+  $('#num-picker').innerHTML = TABLE_COLORS
+    .map((c, i) => `<button class="num-btn" data-n="${i + 1}" role="radio" style="--c:${c}">${i + 1}</button>`)
+    .join('');
+
+  function renderLearn() {
+    const n = store.prefs.learn;
+    $$('.num-btn').forEach((b) => b.setAttribute('aria-checked', String(+b.dataset.n === n)));
+    const times = $('#times');
+    times.style.setProperty('--c', TABLE_COLORS[n - 1]);
+    times.setAttribute('aria-label', `Reizrēķins ar ${n}`);
+    let html = '';
+    for (let b = 1; b <= 10; b++) {
+      html += `<div class="times-row" style="--i:${b - 1}"><span class="ta">${n}</span><span class="op">×</span><span class="tb">${b}</span><span class="op">=</span><span class="tc">${n * b}</span></div>`;
+    }
+    times.innerHTML = html;
+  }
+
+  function pickLearn(n) {
+    if (n === store.prefs.learn) return;
+    store.prefs.learn = n;
+    save();
+    renderLearn();
+    const times = $('#times');
+    times.classList.remove('swap');
+    void times.offsetWidth;
+    times.classList.add('swap');
+    Sound.play('select');
+  }
+
+  $('#num-picker').addEventListener('click', (e) => {
+    const b = e.target.closest('.num-btn');
+    if (b) pickLearn(+b.dataset.n);
+  });
+  $('#btn-learn-back').addEventListener('click', () => { renderMenu(); show('menu'); Sound.play('tap'); });
 
   /* ============ Uzdevumu ģenerēšana ============ */
 
@@ -1128,6 +1168,15 @@
 
     if (current === 'stats') {
       if (key === 'Escape') $('#btn-back').click();
+      return;
+    }
+
+    if (current === 'learn') {
+      const n = store.prefs.learn;
+      if (key === 'Escape') $('#btn-learn-back').click();
+      else if (/^\d$/.test(key)) pickLearn(key === '0' ? 10 : +key);
+      else if (key === 'ArrowRight' && n < 10) pickLearn(n + 1);
+      else if (key === 'ArrowLeft' && n > 1) pickLearn(n - 1);
       return;
     }
 
